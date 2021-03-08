@@ -1,8 +1,9 @@
-package com.example.demo.elasticsearch.esPojo;
+package com.example.demo.elasticsearch.pojo;
 
 import org.neo4j.ogm.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import static com.example.demo.constant.Constant.NODE_INDEX;
 
 /**
  * @author cyk
@@ -10,8 +11,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
  * 映射到es中索引下的节点，indexName 为索引名。
  * shards和replicas分别为分片和副本数量，根据实际ES中的值设置。
  */
-@Document(indexName = "esNode", shards = 1, replicas = 1)
-public class esNode {
+@Document(indexName = NODE_INDEX, shards = 1, replicas = 1)
+public class EsNode {
     @Id
     private Long id;
 
@@ -48,10 +49,10 @@ public class esNode {
     @Field(name ="Label")
     private String label;
 
-    public esNode() {
+    public EsNode() {
     }
 
-    public esNode(Long id, String ip, Long ind, Long od, Long idW, Long odw, double closeness, double betweenness, double eigenVector, double aveNeighborDegree, double lcc, String label) {
+    public EsNode(Long id, String ip, Long ind, Long od, Long idW, Long odw, double closeness, double betweenness, double eigenVector, double aveNeighborDegree, double lcc, String label) {
         this.id = id;
         this.ip = ip;
         this.ind = ind;
@@ -160,7 +161,7 @@ public class esNode {
 
     @Override
     public String toString() {
-        return "esNode{" +
+        return "EsNode{" +
                 "id=" + id +
                 ", ip='" + ip + '\'' +
                 ", ind=" + ind +

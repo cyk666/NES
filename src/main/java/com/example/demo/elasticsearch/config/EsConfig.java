@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.elasticsearch.config;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;

@@ -1,65 +1,78 @@
-package com.example.demo.domain;
+package com.example.demo.elasticsearch.pojo;
 
-import org.neo4j.ogm.annotation.GeneratedValue;
-import org.neo4j.ogm.annotation.Id;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Property;
+import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import static com.example.demo.constant.Constant.EDGE_INDEX;
 
 /**
  * @author cyk
- * 边实体类,从neo4j中映射边数据。
- * 此处的 @NodeEntity后参数是映射到 neo4j数据库中边的标签，默认为类名。
- * 如果有两个中标签的边，则再创建一个边的实体类。
+ * 映射到es中索引下的边的信息，indexName 为索引名。
+ * shards和replicas分别为分片和副本数量，根据实际ES中的值设置。
  */
-
-@NodeEntity("Edge")
-public class Edge {
-
-    //在neo4j中自动为其分配一个数字Id
+@Document(indexName = EDGE_INDEX, shards = 1, replicas = 1)
+public class EsEdge {
+    //可手动设置数字Id值，否则ES将自动分配一个。
     @Id
-    @GeneratedValue
-    private Long id;
+    @JSONField(name = "_id")
+    @Field (name = "_id")
+    private String id;
 
-    @Property("START_ID")
-    private String startId;
+    @Field(name = "_score")
+    private Long score;
 
-    @Property("END_ID")
-    private String endId;
+    @JSONField(name = "SID")
+    @Field(name = "SID")
+    private String startIp;
 
-    @Property("Protocol")
+    @JSONField(name = "EID")
+    @Field(name = "EID")
+    private String endIp;
+
+    @JSONField(name = "Protocol")
+    @Field(name = "Protocol")
     private int protocol;
 
-    @Property("Flow_Duration")
+    @JSONField(name = "Flow Duration")
+    @Field(name = "Flow Duration")
     private Long flowDuration;
 
-    @Property("Tot_Fwd_Pkts")
+    @JSONField(name = "Tot Fwd Pkts")
+    @Field(name = "Tot Fwd Pkts")
     private Long totFwdPkts;
 
-    @Property("Tot_Bwd_Pkts")
+    @JSONField(name = "Tot Bwd Pkts")
+    @Field(name = "Tot Bwd Pkts")
     private Long totBwdPkts;
 
-    @Property("TotLen_Fwd_Pkts")
+    @JSONField(name = "TotLen Fwd Pkts")
+    @Field(name = "TotLen Fwd Pkts")
     private double totLenFwdPkts;
 
-    @Property("TotLen_Bwd_Pkts")
+    @JSONField(name = "TotLen Bwd Pkts")
+    @Field(name = "TotLen Bwd Pkts")
     private double totLenBwdPkts;
 
-    @Property("Down_Up_Ratio")
+    @JSONField(name = "DownUp Ratio")
+    @Field(name = "DownUp Ratio")
     private double downUpRatio;
 
-    @Property("Pkt_Size_Avg")
+    @JSONField(name = "Pkt Size Avg")
+    @Field(name = "Pkt Size Avg")
     private double pktSizeAvg;
 
-    @Property(":TYPE")
+    @JSONField(name = "TYPE")
+    @Field(name = "TYPE")
     private String type;
 
-    public Edge() {
+    public EsEdge() {
     }
 
-    public Edge(Long id, String startId, String endId, int protocol, Long flowDuration, Long totFwdPkts, Long totBwdPkts, double totLenFwdPkts, double totLenBwdPkts, double downUpRatio, double pktSizeAvg, String type) {
+    public EsEdge(String id, String startIp, String endIp, int protocol, Long flowDuration, Long totFwdPkts, Long totBwdPkts, double totLenFwdPkts, double totLenBwdPkts, double downUpRatio, double pktSizeAvg, String type) {
         this.id = id;
-        this.startId = startId;
-        this.endId = endId;
+        this.startIp = startIp;
+        this.endIp = endIp;
         this.protocol = protocol;
         this.flowDuration = flowDuration;
         this.totFwdPkts = totFwdPkts;
@@ -71,25 +84,25 @@ public class Edge {
         this.type = type;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
 
-    public String getStartId() {
-        return startId;
+    public String getStartIp() {
+        return startIp;
     }
 
-    public void setStartId(String startId) {
-        this.startId = startId;
+    public void setStartIp(String startIp) {
+        this.startIp = startIp;
     }
 
-    public String getEndId() {
-        return endId;
+    public String getEndIp() {
+        return endIp;
     }
 
-    public void setEndId(String endId) {
-        this.endId = endId;
+    public void setEndIp(String endIp) {
+        this.endIp = endIp;
     }
 
     public int getProtocol() {
@@ -168,8 +181,8 @@ public class Edge {
     public String toString() {
         return "Edge{" +
                 "id=" + id +
-                ", startId='" + startId + '\'' +
-                ", endId='" + endId + '\'' +
+                ", startId='" + startIp + '\'' +
+                ", endId='" + endIp + '\'' +
                 ", protocol=" + protocol +
                 ", flowDuration=" + flowDuration +
                 ", totFwdPkts=" + totFwdPkts +
